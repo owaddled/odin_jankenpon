@@ -11,26 +11,29 @@ function computerPlay() {
     return computerSelection;
 }
 
-computerPlay();
-
 function userPlay() {
-    let playerSelection = prompt('Choose: (R)ock, (P)aper or (S)cissors')
-    playerSelection = playerSelection.toLowerCase();
-    if (playerSelection === 'rock' || playerSelection === 'paper' || playerSelection === 'scissors') {
-        playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
-        return playerSelection;
-    } else if (playerSelection === 'r' || playerSelection === 'p' || playerSelection === 's') {
-        if (playerSelection === 'r') {
-            playerSelection = 'Rock';
-        } else if (playerSelection === 'p') {
-            playerSelection = 'Paper';
-        } else if (playerSelection === 's') {
-            playerSelection = 'Scissors';
+    let playerSelection = '';
+    let keepGoing = true;
+    while (keepGoing == true) {
+        playerSelection = prompt('Choose: (R)ock, (P)aper or (S)cissors');
+        playerSelection = playerSelection.toLowerCase();
+        if (playerSelection === 'rock' || playerSelection === 'paper' || playerSelection === 'scissors') {
+            playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
+            keepGoing = false;
+        } else if (playerSelection === 'r' || playerSelection === 'p' || playerSelection === 's') {
+            if (playerSelection === 'r') {
+                playerSelection = 'Rock';
+            } else if (playerSelection === 'p') {
+                playerSelection = 'Paper';
+            } else if (playerSelection === 's') {
+                playerSelection = 'Scissors';
+            }
+            keepGoing = false;
+        } else {
+            alert('Try again, must be (R)ock, (P)aper or (S)cissors');
         }
-        return playerSelection;
-    } else {
-        alert('Try again, must be (R)ock, (P)aper or (S)cissors');
     }
+    return playerSelection;
 }
 
 function playRound(playerSelection, computerSelection) {
@@ -61,7 +64,46 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-const computerSelection = computerPlay();
-const playerSelection = userPlay();
 
-console.log(playRound(playerSelection, computerSelection));
+//Write a NEW function called game().
+function game() {
+    //set score
+    let playerScore = 0;
+    let computerScore = 0;
+
+    // Call the playRound function inside of this one to play a 5 round game 
+    for (let i = 0; i < 5; i++) {
+        const computerSelection = computerPlay();
+        const playerSelection = userPlay();
+        result = playRound(playerSelection, computerSelection)
+        //console.log() to display the results of each round
+        console.log(result)
+
+        //incrementing score
+        if (result[4] === 'W') {
+            playerScore++
+        } else if (result[4] === 'L') {
+            computerScore++;
+        }
+    }
+
+    //console.log() reports a winner or loser at the end.
+    function gameResult() {
+        const playerWinGame = `You beat the computer! Your score: ${playerScore}. Computer score: ${computerScore}`;
+        const computerWinGame = `You lost to the computer! Your score: ${playerScore}. Computer score: ${computerScore}`;
+        const tieGame = `It's a tie! Your score: ${playerScore}. Computer score: ${computerScore}`;
+
+        if (playerScore > computerScore) {
+            return playerWinGame;
+        } else if  (computerScore > playerScore) {
+            return computerWinGame;
+        } else if (playerScore === computerScore) {
+            return tieGame;
+        }
+    }
+
+    const gameWinner = gameResult();
+    console.log(gameWinner);
+}
+
+game();
