@@ -2,38 +2,13 @@ function computerPlay() {
     let number = Math.floor(Math.random() * 3);
     let computerSelection = '';
     if (number === 0) {
-        computerSelection = 'rock';
+        computerSelection = 'Rock';
     } else if (number === 1) {
-        computerSelection = 'paper';
+        computerSelection = 'Paper';
     } else if (number === 2 ) {
-        computerSelection = 'scissors';
+        computerSelection = 'Scissors';
     }
     return computerSelection;
-}
-
-function userPlay() {
-    let playerSelection = '';
-    let keepGoing = true;
-    while (keepGoing == true) {
-        playerSelection = prompt('Choose: (R)ock, (P)aper or (S)cissors');
-        playerSelection = playerSelection.toLowerCase();
-        if (playerSelection === 'rock' || playerSelection === 'paper' || playerSelection === 'scissors') {
-            playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
-            keepGoing = false;
-        } else if (playerSelection === 'r' || playerSelection === 'p' || playerSelection === 's') {
-            if (playerSelection === 'r') {
-                playerSelection = 'Rock';
-            } else if (playerSelection === 'p') {
-                playerSelection = 'Paper';
-            } else if (playerSelection === 's') {
-                playerSelection = 'Scissors';
-            }
-            keepGoing = false;
-        } else {
-            alert('Try again, must be (R)ock, (P)aper or (S)cissors');
-        }
-    }
-    return playerSelection;
 }
 
 function playRound(playerSelection, computerSelection) {
@@ -43,32 +18,53 @@ function playRound(playerSelection, computerSelection) {
 
     if (playerSelection === computerSelection) {
         return("It's a tie!")
-    } else if (playerSelection === 'rock') {
-        if (computerSelection === 'paper') {
+    } else if (playerSelection === 'Rock') {
+        if (computerSelection === 'Paper') {
             return computerWin;
-        } else if (computerSelection === 'scissors') {
+        } else if (computerSelection === 'Scissors') {
             return playerWin;
         }
-    } else if (playerSelection === 'paper') {
-        if (computerSelection === 'rock') {
+    } else if (playerSelection === 'Paper') {
+        if (computerSelection === 'Rock') {
             return playerWin;
-        } else if (computerSelection === 'scissors') {
+        } else if (computerSelection === 'Scissors') {
             return computerWin;
         }
-    } else if (playerSelection === 'scissors') {
-        if (computerSelection === 'paper') {
+    } else if (playerSelection === 'Scissors') {
+        if (computerSelection === 'Paper') {
             return playerWin;
-        } else if (computerSelection === 'rock') {
+        } else if (computerSelection === 'Rock') {
             return computerWin;
         }
     }
 }
 
+const buttons = document.querySelectorAll('button');
+const resultDiv = document.querySelector('#result');
+let playerSelection = 'default'
+
+//maybe something up here called inProgress if true then when we click it just updates the playerselectoin
+//if false it starts a new game?
+
 buttons.forEach(btn => {
     btn.addEventListener('click', (e) => {
-        computerSelection = computerPlay()
-        result = playRound(e.target.id, computerSelection);
-        console.log(result);
+        //computerSelection = computerPlay();
+        playerSelection = e.target.id;
+        playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
+        //console.log(playerSelection);
+        //result = playRound(playerSelection, computerSelection);
+        //resultDiv.textContent = result;
     });
 });
 
+//Display the running score
+function game() {
+    //set score
+    playerScore = 0;
+    computerScore = 0;
+
+    result = 
+}
+
+
+//announce a winner of the game once one player reaches 5 points.
