@@ -20,51 +20,74 @@ function playRound(playerSelection, computerSelection) {
         return("It's a tie!")
     } else if (playerSelection === 'Rock') {
         if (computerSelection === 'Paper') {
+            computerScore++
             return computerWin;
         } else if (computerSelection === 'Scissors') {
+            playerScore++
             return playerWin;
         }
     } else if (playerSelection === 'Paper') {
         if (computerSelection === 'Rock') {
+            playerScore++
             return playerWin;
         } else if (computerSelection === 'Scissors') {
+            computerScore++
             return computerWin;
         }
     } else if (playerSelection === 'Scissors') {
         if (computerSelection === 'Paper') {
+            playerScore++
             return playerWin;
         } else if (computerSelection === 'Rock') {
+            computerScore++
             return computerWin;
         }
     }
 }
 
-const buttons = document.querySelectorAll('button');
-const resultDiv = document.querySelector('#result');
-let playerSelection = 'default'
-
-//maybe something up here called inProgress if true then when we click it just updates the playerselectoin
-//if false it starts a new game?
-
-buttons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        //computerSelection = computerPlay();
-        playerSelection = e.target.id;
-        playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
-        //console.log(playerSelection);
-        //result = playRound(playerSelection, computerSelection);
-        //resultDiv.textContent = result;
-    });
-});
-
-//Display the running score
-function game() {
-    //set score
+function gameReset() {
     playerScore = 0;
     computerScore = 0;
-
-    result = 
+    newGame = true;
 }
 
+function theGame(e) {
+    if (newGame) {
+        newGame = false;
+        textDiv.removeChild(gameResult);
+    }
+    computerSelection = computerPlay();
+    playerSelection = e.target.id;
+    playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
+    result = playRound(playerSelection, computerSelection);
+    score = `Your Score: ${playerScore} - Computer Score: ${computerScore}`;
+    scoreDiv.textContent = score;
+    if (playerScore == 5) {
+        //change this to create and add a div called Game result between result and score, game reset will remove it
+        resultDiv.textContent = result;
+        gameResult.textContent = 'First to 5! You beat the computer!';
+        textDiv.insertBefore(gameResult, scoreDiv);
+        gameReset();
+    } else if (computerScore == 5) {
+        resultDiv.textContent = result;
+        gameResult.textContent = 'First to 5! The computer beat you!';
+        textDiv.insertBefore(gameResult, scoreDiv);
+        gameReset();   
+    } else {
+        resultDiv.textContent = result;
+        }
+    }
 
-//announce a winner of the game once one player reaches 5 points.
+const buttons = document.querySelectorAll('button');
+const resultDiv = document.querySelector('#result');
+const scoreDiv = document.querySelector('#score');
+const gameResult = document.createElement('div')
+const textDiv = document.querySelector(".text")
+let newGame = false;
+let playerSelection = '';
+let playerScore = 0;
+let computerScore = 0;
+
+buttons.forEach(btn => {
+    btn.addEventListener('click', (e) => theGame(e))
+});
